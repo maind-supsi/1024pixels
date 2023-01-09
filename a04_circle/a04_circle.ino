@@ -33,12 +33,12 @@ void loop() {
   for (int j = 0; j < HEIGHT; j++) {
     for (int i = 0; i < WIDTH; i++) {
       float d = sqrt(pow(15 - i, 2) + pow(15 - j, 2));
-      float r = (sin(d * f + frame * 0.04) * 0.5 + 0.5) * 255;
+      int r = (int)((sin(d * f + frame * 0.04) * 0.5 + 0.5) * 255.0);
       drawPixel(i, j, { r, 0, 0 });
     }
   }
 
-  bg.swapBuffers(true);  // The library offers double buffering
+  bg.swapBuffers(true); 
   frame++;
 }
 
