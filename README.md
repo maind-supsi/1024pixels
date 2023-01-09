@@ -24,6 +24,7 @@ Develop and idea and a working prototype using a 32×32 RGB LED matrix.
 # Software requirements
 - [Arduino IDE](https://www.arduino.cc/en/Main/Software) 
 - [Processing IDE](https://www.processing.org/download/)
+- [GitHub Desktop](https://desktop.github.com)
 
 # Examples
 All the examples rely on the [SmartMatrix](https://github.com/pixelmatix/SmartMatrix) library for Arduino.
