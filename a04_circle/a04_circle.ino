@@ -23,15 +23,13 @@ void setup() {
   bg.enableColorCorrection(true);
 }
 
-
 uint frame = 0;
 
 void loop() {
 
   bg.fillScreen({ 0, 0, 0 });  // Clear to a color {r,g,b}
-
+  
   float f = sin(frame * 0.001) * 3;
-
   for (int j = 0; j < HEIGHT; j++) {
     for (int i = 0; i < WIDTH; i++) {
       float d = sqrt(pow(15 - i, 2) + pow(15 - j, 2));
@@ -39,12 +37,6 @@ void loop() {
       drawPixel(i, j, { r, 0, 0 });
     }
   }
-
-  frame++;
-
-
-
-
 
   bg.swapBuffers(true);  // The library offers double buffering
   frame++;
