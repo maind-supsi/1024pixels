@@ -14,6 +14,7 @@ byte[]buffer;
 void setup() {
 
   size(32, 32, P3D);
+  smooth(8);
 
   // Displays all the available serial ports…
   // On macOS you can type
