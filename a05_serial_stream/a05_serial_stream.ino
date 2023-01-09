@@ -32,7 +32,6 @@ const uint16_t BUFFER_SIZE = NUM_LEDS * 3;  // Number of channels
 uint8_t buf[BUFFER_SIZE];                   // A buffer for the incoming data
 
 void setup() {
-
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.setTimeout(50);
 
