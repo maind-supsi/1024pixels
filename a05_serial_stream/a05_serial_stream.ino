@@ -39,7 +39,7 @@ void setup() {
   matrix.addLayer(&bg);
   matrix.begin();
   matrix.setBrightness(255);
-  bg.enableColorCorrection(false);
+  bg.enableColorCorrection(true);
 }
 
 void loop() {
