@@ -15,9 +15,11 @@ Develop and idea and a working prototype using a 32×32 RGB LED matrix.
 # Part list
 - RGB LED matrix 32x32 P5 (P5 means that the LED pitch is 5mm)
 - HUB75 ribbon cable (usually comes with the matrix)
+- 5V power cable for the LED matrix
 - 5V power supply (3A minimum), plus cables
 - [Teensy 4.0 or 4.1 development board](https://www.pjrc.com/teensy/) (a Teensy 3.2 will do but has limited memory)
 - [SmartMatrix shield](https://docs.pixelmatix.com/SmartMatrix/) (not strictly necessary but handy to quickly connect the microcontroller)
+- Micro-USB cable
 
 # Software requirements
 - [Arduino IDE](https://www.arduino.cc/en/Main/Software) 
