@@ -20,8 +20,8 @@ const uint8_t kDmaBufferRows = 4;
 const uint8_t kPanelType = SM_PANELTYPE_HUB75_16ROW_MOD8SCAN;
 
 // see docs for options: https://github.com/pixelmatix/SmartMatrix/wiki
-const uint32_t kMatrixOptions = (SM_HUB75_OPTIONS_NONE);
-const uint8_t kBackgroundLayerOptions = (SM_BACKGROUND_OPTIONS_NONE);
+const uint32_t kMatrixOptions = (SM_HUB75_OPTIONS_HUB12_MODE);
+const uint8_t kBackgroundLayerOptions = (SM_HUB75_OPTIONS_MATRIXCALC_LOWPRIORITY);
 
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, WIDTH, HEIGHT, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
 SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(bg, WIDTH, HEIGHT, COLOR_DEPTH, kBackgroundLayerOptions);
@@ -33,14 +33,28 @@ void setup() {
   bg.enableColorCorrection(false);
 }
 
-void drawPixel(int x, int y, const rgb24& color) {
-  if (y >= 8 && y < 16) y += 8;
-  else if (y >= 16 && y < 24) y -= 8;
-  bg.drawPixel(x, y, color);
+void loop() {
+
+  bg.fillScreen({ 0, 0, 0 });  // Clear to a color {r,g,b}
+  drawPixel(10, 10, { 255, 0, 0 });
+
+  // Unfortunately we can't use the built-in functions...
+  // bg.drawCircle(15, 15, 13, { 0, 0, 255 });
+  
+  bg.swapBuffers(true);  // The library offers double buffering
 }
 
-void loop() {
-  bg.fillScreen({ 0, 0, 0 });  // Clear to a color {r,g,b}
-  drawPixel(5, 5, { 255, 0, 0 });
-  bg.swapBuffers(true);  // The library offers double buffering
+// This is a quick hack to correct the row layout of the LED panels.
+// Rows 8-15 need to be swapped with rows 16-23:
+// if (y >= 8 && y < 16) y += 8;
+// else if (y >= 16 && y < 24) y -= 8;
+// instead of an if we use a faster map.
+void drawPixel(int x, int y, const rgb24& color) {
+  static uint8_t y_map[] = {
+    0, 1, 2, 3, 4, 5, 6, 7,          // first 8 rows are ok
+    16, 17, 18, 19, 20, 21, 22, 23,  // swap these rows
+    8, 9, 10, 11, 12, 13, 14, 15,    // ... with these
+    24, 25, 26, 27, 28, 29, 30, 31   // last 8 rows are ok
+  };
+  bg.drawPixel(x, y_map[y], color);
 }
