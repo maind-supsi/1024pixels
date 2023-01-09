@@ -20,7 +20,7 @@ const uint8_t kDmaBufferRows = 4;
 const uint8_t kPanelType = SM_PANELTYPE_HUB75_16ROW_MOD8SCAN;
 
 // see docs for options: https://github.com/pixelmatix/SmartMatrix/wiki
-const uint32_t kMatrixOptions = (SM_HUB75_OPTIONS_HUB12_MODE);
+const uint32_t kMatrixOptions = (SM_HUB75_OPTIONS_NONE);
 const uint8_t kBackgroundLayerOptions = (SM_HUB75_OPTIONS_MATRIXCALC_LOWPRIORITY);
 
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, WIDTH, HEIGHT, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
