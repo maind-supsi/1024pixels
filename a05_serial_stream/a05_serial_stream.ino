@@ -26,9 +26,8 @@ const uint8_t kBackgroundLayerOptions = (SM_HUB75_OPTIONS_MATRIXCALC_LOWPRIORITY
 SMARTMATRIX_ALLOCATE_BUFFERS(matrix, WIDTH, HEIGHT, kRefreshDepth, kDmaBufferRows, kPanelType, kMatrixOptions);
 SMARTMATRIX_ALLOCATE_BACKGROUND_LAYER(bg, WIDTH, HEIGHT, COLOR_DEPTH, kBackgroundLayerOptions);
 
-
 const uint16_t NUM_LEDS = WIDTH * HEIGHT;
-const uint16_t BUFFER_SIZE = NUM_LEDS * 3;  // Number of channels
+const uint16_t BUFFER_SIZE = NUM_LEDS * 3;  // 3 is the number of channels: r, g, b
 uint8_t buf[BUFFER_SIZE];                   // A buffer for the incoming data
 
 void setup() {
@@ -43,23 +42,28 @@ void setup() {
 
 void loop() {
   static uint32_t frame = 0;
-
+  // NOTE: this is a sub-optimal way to read out the buffer 
+  // because we need to re-map the pixels to the matrix layout by using 
+  // our custom "drawPixel()" function
+  // TODO: use the library internal LED remapping so that we can
+  // write the data directly into the screen buffer for optimal performance 
   char chr = Serial.read();
   if (chr == '*') {  // Incoming data
-    // masterFrame^
+    // ^ ^ ^ masterFrame 
     uint16_t count = Serial.readBytes((char *)buf, BUFFER_SIZE);
     if (count == BUFFER_SIZE) {
-      rgb24 *buffer = bg.backBuffer();
+      //rgb24 *buffer = bg.backBuffer();      
       uint16_t idx = 0;
-      for (uint16_t i = 0; i < NUM_LEDS; i++) {
-        //rgb24 *col = &buffer[i];
-        drawPixel(i % WIDTH, i / WIDTH, {buf[idx++], buf[idx++], buf[idx++]});
+      for (uint8_t j = 0; j < HEIGHT; j++) {
+        for (uint8_t i = 0; i < WIDTH; i++) {
+          //rgb24 *col = &buffer[i];
+          drawPixel(i, j, { buf[idx++], buf[idx++], buf[idx++] });
+        }
       }
       bg.swapBuffers(false);
     }
   }
-  digitalWrite(LED_BUILTIN, frame / 100 % 2);  // Let's animate the built-in LED as well
-  
+  digitalWrite(LED_BUILTIN, frame / 10 % 2 == 0 ? HIGH : LOW);  // Let's animate the built-in LED as well
   frame++;
 }
 
@@ -68,7 +72,7 @@ void loop() {
 // if (y >= 8 && y < 16) y += 8;
 // else if (y >= 16 && y < 24) y -= 8;
 // instead of an if we use a faster map.
-void drawPixel(int x, int y, const rgb24& color) {
+void drawPixel(int x, int y, const rgb24 &color) {
   static uint8_t y_map[] = {
     0, 1, 2, 3, 4, 5, 6, 7,          // first 8 rows are ok
     16, 17, 18, 19, 20, 21, 22, 23,  // swap these rows
