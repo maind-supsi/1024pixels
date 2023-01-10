@@ -20,13 +20,13 @@ void setup() {
   // On macOS you can type
   // > ls -1 /dev/cu*
   // in the terminal for the same result
-  // printArray(Serial.list());
+  printArray(Serial.list());
 
   // Windows
   // serial = new Serial(this, "COM3");
 
   // macOS / unix systems:
-  serial = new Serial(this, "/dev/cu.usbmodem91269301");
+  serial = new Serial(this, "/dev/cu.usbmodem91290301");
 
   buffer = new byte[MATRIX_WIDTH * MATRIX_HEIGHT * NUM_CHANNELS];
 
