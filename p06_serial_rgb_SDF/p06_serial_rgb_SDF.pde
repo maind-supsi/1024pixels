@@ -23,10 +23,10 @@ void setup() {
   led = createGraphics(MATRIX_WIDTH, MATRIX_HEIGHT);
   led.smooth();
 
-  //printArray(Serial.list());
+  printArray(Serial.list());
 
   try {
-    serial = new Serial(this, "/dev/cu.usbmodem91269301");
+    serial = new Serial(this, "/dev/cu.usbmodem91290301");
   }
   catch(Exception e) {
     println("Couldn't open the serial port...");
@@ -61,8 +61,8 @@ void draw() {
       float r = sin(s * 20 + frameCount * 0.1) * 0.5 + 0.5;
 
 
-      float g = 0;
-      float b = 0;
+      float g = r;
+      float b = r;
 
 
 
