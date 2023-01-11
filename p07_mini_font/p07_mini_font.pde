@@ -53,7 +53,8 @@ void draw() {
   led.textAlign(LEFT, TOP);
   for (int j=0; j<4; j++) {
     for (int i=0; i<5; i++) {
-      int idx = 32 + (i * frameCount/20 + j * frameCount/30 + frameCount/10) % 95;
+      int idx = 33 + (i + floor(sin(j * 0.1 + frameCount * 0.005) * 40) + 40);
+      idx = idx % 95;      
       led.text(char(idx), i * 6, j * 8);
     }
   }
