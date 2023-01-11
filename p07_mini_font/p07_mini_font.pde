@@ -37,24 +37,21 @@ void setup() {
   }
 
   buffer = new byte[MATRIX_WIDTH * MATRIX_HEIGHT * NUM_CHANNELS];
+
+  frameRate(30);
 }
 
 void draw() {
 
-  
-   int d = 32 + (frameCount) % 95;
-   
-   println(char(d));
-  
   led.beginDraw();
   led.textFont(font);
   led.background(0);
-  led.fill(255, 0, 0);
+  led.fill(200, 100, 0);
   led.textAlign(LEFT, TOP);
   for (int j=0; j<4; j++) {
     for (int i=0; i<5; i++) {
-      int idx = 33 + (i + floor(sin(j * 0.1 + frameCount * 0.005) * 40) + 40);
-      idx = idx % 95;      
+      int idx = 33 + (i + floor(sin(j * 0.1 + frameCount * 0.005) * 80) + 80);
+      idx = idx % 95;
       led.text(char(idx), i * 6, j * 8);
     }
   }
