@@ -1,8 +1,8 @@
 
 
 /**
- * This sketch sends all the pixels of the canvas to the serial port.
- * A helper function to scan all the serial ports for a configured controller is provided.
+ * Control P5 example. 
+ * To run this skecth you need to install the Control P5 library! 
  */
 
 import controlP5.*;
@@ -17,9 +17,11 @@ byte[]buffer;
 
 PGraphics led;
 
-float ball_diameter = 9;
-float range_x = 10;
-float range_y = 10;
+float ball_diameter = 24;
+float range_x = 12;
+float range_y = 12;
+int freq_x = 7;
+int freq_y = 8;
 
 void setup() {
 
@@ -29,6 +31,10 @@ void setup() {
 
   led = createGraphics(MATRIX_WIDTH, MATRIX_HEIGHT);
   led.smooth();
+
+  led.beginDraw();
+  led.background(0);
+  led.endDraw();
 
   //printArray(Serial.list());
 
@@ -46,21 +52,26 @@ void setup() {
 
   int w = 200;
   int h = 18;
-  cp5.addSlider("ball_diameter").setRange(1, 40).setWidth(w).setHeight(h).linebreak();
-  cp5.addSlider("range_x").setRange(0, 40).setWidth(w).setHeight(h).linebreak();
-  cp5.addSlider("range_y").setRange(0, 40).setWidth(w).setHeight(h).linebreak();
-
+  cp5.addSlider("ball_diameter").setRange(1, 64).setWidth(w).setHeight(h).linebreak();
+  cp5.addSlider("range_x").setRange(0, 16).setWidth(w).setHeight(h).linebreak();
+  cp5.addSlider("range_y").setRange(0, 16).setWidth(w).setHeight(h).linebreak();
+  cp5.addSlider("freq_x").setRange(0, 10).setWidth(w).setHeight(h).linebreak();
+  cp5.addSlider("freq_y").setRange(0, 10).setWidth(w).setHeight(h).linebreak();
 }
 
 void draw() {
 
   background(180);
 
-  float x = sin(frameCount * 0.1) * range_x + MATRIX_WIDTH * 0.5;
-  float y = cos(frameCount * 0.3) * range_y + MATRIX_HEIGHT * 0.5;
+  float x = sin(frameCount * freq_x * 0.01) * range_x + MATRIX_WIDTH * 0.5;
+  float y = cos(frameCount * freq_y * 0.01) * range_y + MATRIX_HEIGHT * 0.5;
+  float r = map(sin(frameCount * 0.041), -1, 1, 0, 255);
+  float g = map(sin(frameCount * 0.052), -1, 1, 0, 255);
+  float b = map(sin(frameCount * 0.063), -1, 1, 0, 255);
+
   led.beginDraw();
-  //led.noStroke();
-  led.background(200, 0, 180);
+  led.noStroke();
+  led.fill(r, g, b);
   led.ellipse(x, y, ball_diameter, ball_diameter);
   led.endDraw();
 
